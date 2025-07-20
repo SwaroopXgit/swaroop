@@ -1,0 +1,119 @@
+-- Create the UI
+local player = game:GetService("Players").LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "TrollUI"
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 350, 0, 400)  -- Larger frame for more buttons
+frame.Position = UDim2.new(0.5, -175, 0.5, -200)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.Parent = gui
+
+local title = Instance.new("TextLabel")
+title.Text = "Advanced Troll UI"
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Parent = frame
+
+-- Function to create buttons
+local function createButton(name, position, callback)
+    local button = Instance.new("TextButton")
+    button.Text = name
+    button.Size = UDim2.new(0.9, 0, 0, 30)
+    button.Position = position
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = frame
+
+    button.MouseButton1Click:Connect(callback)
+end
+
+-- Button actions
+createButton("Teleport All to Me", UDim2.new(0.05, 0, 0.1, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            otherPlayer.Character:MoveTo(player.Character.HumanoidRootPart.Position)
+        end
+    end
+end)
+
+createButton("Freeze All", UDim2.new(0.05, 0, 0.2, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local humanoid = otherPlayer.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 0
+            end
+        end
+    end
+end)
+
+createButton("Unfreeze All", UDim2.new(0.05, 0, 0.3, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local humanoid = otherPlayer.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 16
+            end
+        end
+    end
+end)
+
+createButton("Make All Invisible", UDim2.new(0.05, 0, 0.4, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            for _, part in ipairs(otherPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 1
+                end
+            end
+        end
+    end
+end)
+
+createButton("Restore Visibility", UDim2.new(0.05, 0, 0.5, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            for _, part in ipairs(otherPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 0
+                end
+            end
+        end
+    end
+end)
+
+createButton("Zero Gravity", UDim2.new(0.05, 0, 0.6, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local humanoidRootPart = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                humanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 50, 0)  -- Launch players up
+            end
+        end
+    end
+end)
+
+createButton("Chat Spam", UDim2.new(0.05, 0, 0.7, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player then
+            for i = 1, 10 do
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                    "You've been trolled! (" .. i .. "/10)",
+                    "All"
+                )
+                task.wait(0.5)
+            end
+        end
+    end
+end)
+
+createButton("Respawn All", UDim2.new(0.05, 0, 0.8, 0), function()
+    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player then
+            otherPlayer:LoadCharacter()
+        end
+    end
+end)
