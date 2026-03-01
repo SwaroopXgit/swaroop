@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gesture Hologram Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel video-panel">
+        <h1>🛰️ Cosmic Gesture Console</h1>
+        <p>
+          Allow camera access, then move your hand to bend space particles. Pinch your
+          thumb + index finger to charge the hologram.
+        </p>
+        <div class="video-wrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+        </div>
+        <div class="status" id="status">Initializing camera...</div>
+      </section>
+
+      <section class="panel stage-panel">
+        <div id="spaceStage" class="space-stage">
+          <div id="hologram" class="hologram">
+            <div class="ring ring-one"></div>
+            <div class="ring ring-two"></div>
+            <div class="core"></div>
+            <div class="beam"></div>
+          </div>
+        </div>
+        <div class="legend">
+          <span><strong>Index:</strong> particle attractor</span>
+          <span><strong>Pinch:</strong> hologram size + intensity</span>
+          <span><strong>Mouse fallback:</strong> enabled if hand tracking fails</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
